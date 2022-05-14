@@ -10,7 +10,7 @@ using UnityEngine;
 public class ScoreCalc : MonoBehaviour
 {
   //バール氏のスコア計算関連
-  
+
   /// <summary>
   /// バール氏の記述を基にしたスコア計算
   /// </summary>
@@ -32,12 +32,16 @@ public class ScoreCalc : MonoBehaviour
     //   p= pArray[(int)size];
     p = Pn((int)size);//エラー出ない程度に残す
     q = Mathf.Floor(score * 1f) * SKILL_SCORE_RATE;
-    r = 0.015f * (size - 6);
+    r = 0.015f * (size - 6f);
     //コンボ500で上限を追加
-    s = (combo > 500 ? 500 : combo) + 200 * comboBonus;//これは違う可能性がある
+    s = (combo > 500f ? 500f : combo) + 200f * comboBonus;//これは違う可能性がある
 
 
     answer = Mathf.Floor((p + q * r) * s) * feverBonus;
+
+
+    Debug.Log("ScoreCalc size " + size + "/score " + score + "/combo " + combo + " = ans " + answer);
+
     // answer = Mathf.Floor(Mathf.Pow((p + q * r) * s, Mathf.Pow(AGHOST_CONST, SKILL_TIMES))) * feverBonus;
     /* スキル倍率がかかるたびにその商を0.9乗する→まとめて0.9のn乗をかける
      * const float AGHOST_CONST = 0.9f;
@@ -154,7 +158,7 @@ public class ScoreCalc : MonoBehaviour
     float sigma = 0f;
     for (int k = 0; k < n - 1; k++)
     {
-      sigma += Mathf.Ceil((4 / 5) * k);
+      sigma += Mathf.Ceil((4f / 5f) * k);
     }
     return sigma / 200f;
 
@@ -186,6 +190,16 @@ public class ScoreCalc : MonoBehaviour
   {
     float beta = BetaN(n);
 
-    return 0.18f * Mathf.Floor((n - 121) / 5) + beta + 0.015f;
+    return 0.18f * Mathf.Floor((n - 121) / 5f) + beta + 0.015f;
   }
+
+  void Start()
+  {
+    for (int i = 0; i < 10; i++)
+    {//テスト用、これだと毎回1000のサイズの配列を計算している
+      Bar_exdnkrs(10f, 555f, i * 50);
+
+    }
+  }
+
 }
