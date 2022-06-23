@@ -91,7 +91,6 @@ public class ScoreCalc : MonoBehaviour
       //記述に忠実に組むとこうだが計算がかなり無駄なので
       //     pArray[n] = pArray[n - 1] + AlphaN(n);
       pArray[n] = pArray[n - 1] + tempSigma4_5k / 200f;
-      //  Debug.Log("parr" + n + " " + pArray[n]);
     }
     delta = AlphaN(120);//ALPHA120
 
@@ -99,23 +98,19 @@ public class ScoreCalc : MonoBehaviour
     {
       delta = delta - GammaN(n);
       pArray[n] = pArray[n - 1] + delta;
-
     }
     //この時点でdelta=DELTA150
 
     for (; n <= 200; n++)
     {
       pArray[n] = pArray[n - 1] + delta - (n - 150) * 0.25f;
-
     }
     for (; n < 1000; n++)
     {//floatの精度の問題で999は2253.251となる。本来なら2253.27
       //2000>>0.019で誤差レベルとして無視する
       //double型なら防げるが1000の配列をメモリに置いておくためfloatのまま
-      //
       pArray[n] = pArray[n - 1] + 0.1f;
     }
-
   }
 
   /// <summary>
