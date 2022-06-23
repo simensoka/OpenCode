@@ -7,7 +7,7 @@ using UnityEngine;
 /// スコア曲線によるスコア計算
 /// </summary>
 public class ScoreCalc : MonoBehaviour
-{//動作確認のためLogで確認できるように
+{//動作確認のためLogで確認できるようにした。ver1.0.2
   /// <summary>
   /// 計算用の基礎曲線データ
   /// </summary>
@@ -35,11 +35,10 @@ public class ScoreCalc : MonoBehaviour
 
     AuraList.Add(Aura.pScoreAlways);//サイズぷくスコア+(常時)
 
-    /*チェーンによる属性や倍率ボーナス、表示用オーラの受け渡しのためにAuraクラスを作成しました。
-     *ぷくそれぞれの持つ追加属性情報をまとめておくためのものです
+    /* チェーンによる属性や倍率ボーナス、表示用オーラの受け渡しのためにAuraクラスを作成しました。
+     * ぷくそれぞれの持つ追加属性情報をまとめておくためのものです
      * 同じAuraを複数持たせたいときはAuraList.Addを複数回する必要があります
      * 独自の受け渡し機構をすでに作っている可能性が高いので、AuraListを使うものはすべてメソッドとして分離して計算式に組み込んであります
-     * 
      */
 
     //以下すべてテスト表示用コード
@@ -76,7 +75,7 @@ public class ScoreCalc : MonoBehaviour
   /// <summary>
   /// スコアの基礎となる配列を計算する
   /// </summary>
-  void FillPArray()
+  private void FillPArray()
   {
     int n;
     float delta;
@@ -167,12 +166,11 @@ public class ScoreCalc : MonoBehaviour
   {
     double comboBonus = 1;
 
-    int iii = 20;
     foreach (var item in AuraList)
     {
       if (item.type == AuraType.ComboBonus)
       {
-        comboBonus += (double)iii / 1000;
+        comboBonus += (double)item.value / 1000;
       }
     }
 
@@ -319,7 +317,7 @@ public class ScoreCalc : MonoBehaviour
     return GAMMA150 - (n - 150) * 0.25f;
   }
   /// <summary>
-  /// 
+  /// スコアの計算の関数
   /// </summary>
   /// <param name="n"></param>
   /// <returns></returns>
@@ -331,7 +329,6 @@ public class ScoreCalc : MonoBehaviour
       sigma += Mathf.Ceil((4f / 5f) * k);
     }
     return sigma / 200f;
-
   }
   /// <summary>
   /// スコアの計算の関数
@@ -349,7 +346,6 @@ public class ScoreCalc : MonoBehaviour
     else if (n % 5 == 0)
       return 0.15f;
     else return 0f;
-
   }
   /// <summary>
   /// スコアの計算の関数
@@ -435,7 +431,6 @@ public class Aura
 
   //小道具関連
   //https://docs.google.com/spreadsheets/d/1N7Tf3bgzD8YdZjG6tWZ0wuAFB3Ui-L4MMBnfRskYCRA/edit#gid=1483832889
-  //コード効率は常に悩む。アイテムデータ配列として持つべきか？
   public static readonly Aura pScoreAlways = new Aura(AuraType.ScoreCalcModifier, 0, 10f);//1%なら10f
   public static readonly Aura pScoreFever = new Aura(AuraType.ScoreCalcModifierOnFever, 0, 12f);//1.2％なら12f
   public static readonly Aura pScoreRatio = new Aura(AuraType.ScoreRatioModifier, 0, 3000f);//4倍なら(4-1)*1000=3000f
